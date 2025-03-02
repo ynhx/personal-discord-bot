@@ -1,0 +1,4 @@
+lilybot\main\LilyBot.class
+lilybot\databases\DatabaseManager.class
+lilybot\tasks\GiftCardScheduler.class
+lilybot\essentials\Config.class
