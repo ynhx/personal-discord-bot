@@ -67,7 +67,6 @@ public class DatabaseManager {
 
             rows = ps.executeUpdate();
             System.out.println("Deleted " + rows + " gift card.");
-            ps.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -76,27 +75,29 @@ public class DatabaseManager {
 
     public String retrieveAll() {
         String sql = "SELECT month, characters FROM gift_card";
-        String giftCards = "";
+        StringBuilder giftCards = new StringBuilder();
+        int rows = 0;
 
         try (Connection connection = connect();
-                PreparedStatement ps = connection.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
-
-            System.out.println("Retrieved " + rs.getFetchSize() + " gift cards.");
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();) {
 
             while (rs.next()) {
                 String month = rs.getString("month");
                 String characters = rs.getString("characters");
 
-                giftCards += "**" + month.substring(0, 1).toUpperCase() + month.substring(1) + ": **"
-                        + characters.toUpperCase()
-                        + "\n\n";
+                giftCards.append("**").append(month.substring(0, 1).toUpperCase()).append(month.substring(1))
+                        .append(": **")
+                        .append(characters.toUpperCase())
+                        .append("\n");
+
+                rows++;
             }
-            rs.close();
+            System.out.println("Retrieved " + rows + " monthly gift cards.");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return giftCards;
+        return giftCards.toString();
     }
 
     public void storeRegularGiftCard(String code) {
@@ -116,7 +117,7 @@ public class DatabaseManager {
     public String getRegularGiftCard() {
         String sqlSelect = "SELECT card_code FROM regular_gift_cards LIMIT 1";
         String sqlDelete = "DELETE FROM regular_gift_cards WHERE card_code = ?";
-        String giftCard = "";
+        String giftCard;
 
         try (Connection connection = connect()) {
             connection.setAutoCommit(false);
@@ -146,5 +147,31 @@ public class DatabaseManager {
             System.out.println(ex.getMessage());
         }
         return "";
+    }
+
+    public String retrieveAllRegular() {
+        String sql = "SELECT card_code FROM regular_gift_cards";
+        StringBuilder giftCards = new StringBuilder();
+        int count = 1;
+
+        try (Connection connection = connect();
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            int rows = 0;
+
+            while (rs.next()) {
+                String code = rs.getString("card_code");
+
+                giftCards.append(count).append(". ").append(code.toUpperCase()).append("\n");
+
+                count++;
+                rows++;
+            }
+            System.out.println("Retrieved " + rows + " regular gift cards.");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return giftCards.toString();
     }
 }

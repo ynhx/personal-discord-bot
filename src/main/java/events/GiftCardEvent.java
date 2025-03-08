@@ -30,7 +30,7 @@ public class GiftCardEvent extends ListenerAdapter {
 
                 manager.storeRegularGiftCard(code);
 
-                event.getChannel().sendMessage("You have successfully stored a gift card.").queue();
+                event.getChannel().sendMessage("You have successfully stored a regular gift card.").queue();
 
             } else if (args[0].equalsIgnoreCase("!sendgift") && args.length == 2) {
                 String month = args[1];
@@ -96,6 +96,16 @@ public class GiftCardEvent extends ListenerAdapter {
                 } else {
                     event.getChannel().sendMessage("You haven't stored any gift cards.").queue();
                 }
+                
+            } else if (message.equalsIgnoreCase("!retrieveallreg")) {
+                String giftCards = manager.retrieveAllRegular();
+
+                if (!giftCards.isEmpty()) {
+                    event.getChannel().sendMessage("Here are all the regular gift cards you have stored:"
+                            + "\n\n" + giftCards).queue();
+                } else {
+                    event.getChannel().sendMessage("You haven't stored any regular gift cards.").queue();
+                }
             }
         }
     }
@@ -106,7 +116,7 @@ public class GiftCardEvent extends ListenerAdapter {
         takes in the channel ID of that server in order to send
          */
         TextChannel channel = event.getJDA().getTextChannelById(channelId);
-        
+
         if (channel != null) {
             channel.sendMessage(chanMessage).queue(success
                     -> event.getChannel().sendMessage("Message sent to the channel.").queue(),

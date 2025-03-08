@@ -1,13 +1,9 @@
 package mainclass;
 
-import buttons.HelpButtonHandler;
-import commands.GiftCardCommand;
-import commands.HelpCommand;
+import buttons.*;
+import commands.*;
 import essentials.Config;
-import events.CartPriceEvent;
-import events.ClearCartEvent;
-import events.ForwardMessagesEvent;
-import events.GiftCardEvent;
+import events.*;
 import tasks.GiftCardScheduler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -41,7 +37,7 @@ public class LilyBot {
         JDA jda = builder.build();
         jda.awaitReady();
 
-        new GiftCardScheduler(jda);
+        GiftCardScheduler giftCardScheduler = new GiftCardScheduler(jda);
 
         jda.updateCommands().addCommands(Commands.slash("change", "Change your monthly item")
                 .addOption(OptionType.STRING, "new_item", "What do you want to change to?", true),
