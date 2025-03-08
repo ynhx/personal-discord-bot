@@ -5,6 +5,7 @@ buttons\HelpButtonHandler.class
 mainclass\LilyBot.class
 databases\DatabaseManager.class
 essentials\Config.class
+handlers\MessagesHandler.class
 events\ClearCartEvent.class
 commands\HelpCommand.class
 tasks\GiftCardScheduler.class
