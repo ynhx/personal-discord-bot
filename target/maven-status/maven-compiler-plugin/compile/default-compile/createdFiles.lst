@@ -1,0 +1,11 @@
+commands\GiftCardCommand.class
+events\ForwardMessagesEvent.class
+events\CartPriceEvent.class
+buttons\HelpButtonHandler.class
+mainclass\LilyBot.class
+databases\DatabaseManager.class
+essentials\Config.class
+events\ClearCartEvent.class
+commands\HelpCommand.class
+tasks\GiftCardScheduler.class
+events\GiftCardEvent.class
